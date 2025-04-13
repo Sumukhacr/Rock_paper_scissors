@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+string getComputerChoice() {
+    int randNum = rand() % 3;
+    switch (randNum) {
+        case 0: return "rock";
+        case 1: return "paper";
+        case 2: return "scissors";
+        default: return "rock"; // fallback
+    }
+}
+
+string getResult(string player, string computer) {
+    if (player == computer) return "It's a draw!";
+    if ((player == "rock" && computer == "scissors") ||
+        (player == "paper" && computer == "rock") ||
+        (player == "scissors" && computer == "paper")) {
+        return "You win!";
+    }
+    return "Computer wins!";
+}
+
+bool isValidChoice(string choice) {
+    return choice == "rock" || choice == "paper" || choice == "scissors";
+}
+
+int main() {
+    srand(time(0));
+    string playerChoice;
+    char playAgain;
+
+    cout << "🎮 Welcome to Rock, Paper, Scissors!\n";
+
+    do {
+        cout << "\nEnter your choice (rock, paper, or scissors): ";
+        cin >> playerChoice;
+
+        // Convert input to lowercase (optional)
+        for (auto &c : playerChoice) c = tolower(c);
+
+        if (!isValidChoice(playerChoice)) {
+            cout << "❌ Invalid choice. Try again.\n";
+            continue;
+        }
+
+        string computerChoice = getComputerChoice();
+        cout << "Computer chose: " << computerChoice << endl;
+
+        string result = getResult(playerChoice, computerChoice);
+        cout << "Result: " << result << "\n";
+
+        cout << "\nPlay again? (y/n): ";
+        cin >> playAgain;
+
+    } while (playAgain == 'y' || playAgain == 'Y');
+
+    cout << "👋 Thanks for playing!\n";
+    return 0;
+}
